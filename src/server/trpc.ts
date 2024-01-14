@@ -9,20 +9,31 @@
  */
 
 import { initTRPC } from '@trpc/server';
-import { transformer } from '~/utils/transformer';
-import type { Context } from './context';
+import { ZodError } from 'zod';
+import { createTRPCContext } from './context';
+// import type { Context } from './context';
 
-const t = initTRPC.context<Context>().create({
-  /**
-   * @link https://trpc.io/docs/v11/data-transformers
-   */
-  transformer,
-  /**
-   * @link https://trpc.io/docs/v11/error-formatting
-   */
-  errorFormatter({ shape }) {
-    return shape;
-  },
+// const t = initTRPC.context<Context>().create({
+//   /**
+//    * @link https://trpc.io/docs/v11/data-transformers
+//    */
+//   transformer,
+//   /**
+//    * @link https://trpc.io/docs/v11/error-formatting
+//    */
+//   errorFormatter({ shape }) {
+//     return shape;
+//   },
+// });
+
+const t = initTRPC.context<typeof createTRPCContext>().create({
+  errorFormatter: ({ shape, error }) => ({
+    ...shape,
+    data: {
+      ...shape.data,
+      zodError: error.cause instanceof ZodError ? error.cause.flatten() : null,
+    },
+  }),
 });
 
 /**

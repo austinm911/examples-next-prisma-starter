@@ -7,6 +7,7 @@
   },
   "packageManager": "pnpm@8.5.1",
   "scripts": {
+    "clean": "rm -rf **/node_modules **/package-lock.json",
     "generate": "prisma generate",
     "prisma-studio": "prisma studio",
     "db-seed": "prisma db seed",
@@ -25,7 +26,7 @@
     "test-unit": "vitest",
     "test-e2e": "playwright test",
     "test-start": "run-s test-unit test-e2e",
-    "postinstall": "pnpm generate"
+    "postinstall": ""
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -50,6 +51,7 @@
     "zod": "^3.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.4.1",
     "@playwright/test": "^1.26.1",
     "@types/node": "^20.10.0",
     "@types/react": "^18.2.33",
